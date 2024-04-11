@@ -82,7 +82,19 @@ def create_picture():
 
 @app.route("/picture/<int:id>", methods=["PUT"])
 def update_picture(id):
-    pass
+    if not data:
+        return {"message": "Internal server error"}, 500
+
+    updated_picture = request.json
+    if not updated_picture:
+        return {"message": "Invalid input parameter"}, 422
+    
+    for idx, picture in enumerate(data):
+        if picture["id"] == updated_picture["id"]:
+            data[idx] = updated_picture
+            return updated_picture, 201
+
+    return {"message": "picture not found"}, 404
 
 ######################################################################
 # DELETE A PICTURE
