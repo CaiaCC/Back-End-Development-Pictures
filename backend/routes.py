@@ -101,4 +101,12 @@ def update_picture(id):
 ######################################################################
 @app.route("/picture/<int:id>", methods=["DELETE"])
 def delete_picture(id):
-    pass
+    if not data:
+        return {"message": "Internal server error"}, 500
+    
+    for idx, picture in enumerate(data):
+        if picture["id"] == id:
+            del data[idx]
+            return {}, 204
+
+    return {"message": "picture not found"}, 404
